@@ -53,20 +53,22 @@ RUN wget -O coreform-cubit-2021.5.deb https://f002.backblazeb2.com/file/cubit-do
 # install cubit
 RUN dpkg -i coreform-cubit-2021.5.deb
 
+# installs svalinn plugin for cubit
+RUN wget https://github.com/svalinn/Cubit-plugin/releases/download/0.2.1/svalinn-plugin_debian-10.10_cubit_2021.5.tgz
+RUN tar -xzvf svalinn-plugin_debian-10.10_cubit_2021.5.tgz -C /opt/Coreform-Cubit-2021.5
 
 # makes a python file and trys to import cubit
 RUN printf 'import sys\nsys.path.append("/opt/Coreform-Cubit-2021.5/bin/")\nimport cubit\ncubit.init([])\n' >> test_cubit_import.py
 
 # writes a non commercial license file
-RUN printf 'Fri May 28 2021\n' >> /opt/Coreform-Cubit-2021.5/bin/licenses/cubit-learn.lic
+RUN printf 'Fri May 28 2021' >> /opt/Coreform-Cubit-2021.5/bin/licenses/cubit-learn.lic
 
-
-RUN wget https://github.com/svalinn/Cubit-plugin/releases/download/0.2.1/svalinn-plugin_debian-10.10_cubit_2021.5.tgz
-RUN tar -xzvf svalinn-plugin_debian-10.10_cubit_2021.5.tgz -C /opt/Coreform-Cubit-2021.5
 
 # copies over cad files and test script
 COPY stp_to_h5m_cubit_script.py .
 COPY stp_files stp_files/
+
+ENV CUBIT_VERBOSE=5
 
 # runs test script
 RUN python stp_to_h5m_cubit_script.py
