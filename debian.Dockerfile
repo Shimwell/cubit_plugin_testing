@@ -62,6 +62,8 @@ RUN printf 'import sys\nsys.path.append("/opt/Coreform-Cubit-2021.5/bin/")\nimpo
 
 # writes a non commercial license file
 RUN printf 'Fri May 28 2021' >> /opt/Coreform-Cubit-2021.5/bin/licenses/cubit-learn.lic
+RUN mkdir -p /root/.config/Coreform/licenses
+RUN printf 'Fri May 28 2021' >> /root/.config/Coreform/licenses/cubit-learn.lic
 
 
 # copies over cad files and test script
