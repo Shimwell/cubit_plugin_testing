@@ -80,8 +80,10 @@ RUN printf 'import sys\nsys.path.append("/opt/Coreform-Cubit-2021.5/bin/")\nimpo
 
 
 # writes a non commercial license file
-# RUN printf 'Fri May 28 2021\n' >> /opt/Coreform-Cubit-2021.5/bin/licenses/license.lic
-# COPY license.lic /opt/Coreform-Cubit-2021.5/bin/licenses/license.lic
+# RUN printf 'Fri May 28 2021' >> /opt/Coreform-Cubit-2021.5/bin/licenses/cubit-learn.lic
+RUN mkdir -p /root/.config/Coreform/licenses
+RUN printf 'Fri May 28 2021' >> /root/.config/Coreform/licenses/cubit-learn.lic
+
 
 
 RUN wget https://github.com/svalinn/Cubit-plugin/releases/download/0.2.1/svalinn-plugin_ubuntu-20.04_cubit_2021.5.tgz
@@ -90,6 +92,8 @@ RUN tar -xzvf svalinn-plugin_ubuntu-20.04_cubit_2021.5.tgz -C /opt/Coreform-Cubi
 # copies over cad files and test script
 COPY stp_to_h5m_cubit_script.py .
 COPY stp_files stp_files/
+
+ENV CUBIT_VERBOSE=5
 
 # runs test script
 RUN python stp_to_h5m_cubit_script.py
