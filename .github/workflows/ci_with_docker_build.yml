@@ -15,7 +15,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build and test with Docker
+      - name: Build and test with debian Docker
         run: |
-          docker build -t cubit_docker .
-          docker run --rm cubit_docker /bin/bash -c "python stp_to_h5m_cubit_script.py"
+          docker build -t cubit_debian_docker -f debian.Dockerfile .
+          docker run --rm cubit_debian_docker /bin/bash -c "python stp_to_h5m_cubit_script.py"
+
+      - name: Build and test with ubuntu Docker
+        run: |
+          docker build -t cubit_ubuntu_docker -f ubuntu.Dockerfile .
+          docker run --rm cubit_ubuntu_docker /bin/bash -c "python stp_to_h5m_cubit_script.py"
